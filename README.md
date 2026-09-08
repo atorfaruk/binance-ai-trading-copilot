@@ -44,3 +44,17 @@ Run `python -m app.main --demo`, show the scan, score, 1% risk calculation, prop
 
 ## Before any live test
 Keep `ALLOW_LIVE_EXECUTION=false` for the hackathon demo unless you have reviewed the MCP host, account permissions and every tool exposed to the agent. This repository is not financial advice.
+
+The demo generates a simulated trade proposal and demonstrates the human approval and execution safety system.
+The demo cannot place a real Binance order.
+🧪 Tests
+Run:
+pytest -q
+The project includes tests for approval, risk limits, proposal tampering, Spot-only restrictions and execution safety.
+🏆 Hackathon Vision
+Most AI trading systems focus on giving agents more autonomy.
+This project takes a safety-first approach:
+Give AI better analysis, but keep humans in control.
+The goal is an AI trading copilot that is explainable, auditable and difficult to misuse.
+License
+MIT
