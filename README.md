@@ -1,60 +1,63 @@
 # Binance AI Trading Copilot
 
-Safety-first Binance MCP / Agent OS hackathon MVP.
+> The AI proposes. The risk engine validates. The human approves. The firewall executes.
 
-Flow: Market Scan -> Features -> 0-100 Score -> Risk/Position Sizing -> Trade Proposal -> exact YES approval -> Spot firewall -> Monitoring -> JSONL Journal.
+A safety-first AI trading copilot built for the Binance Agent OS / MCP ecosystem.
+
+## How It Works
+
+Market Scan → Setup Score → Risk Check → Trade Proposal → Human YES Approval → Spot Execution Firewall
 
 ## Safety
-- `ALLOW_LIVE_EXECUTION=false` by default.
-- `--demo` uses synthetic data and a client that refuses every order.
-- Spot tools only; Futures, Margin, withdrawals, transfers and deposits are blocked.
-- Exact `YES` is required.
-- Approval is bound to a SHA-256 fingerprint of execution-critical fields; changing them invalidates approval.
-- Maximum risk is 1%; minimum R:R is 1:2.
-- No Binance API keys are stored by this project.
 
-## Components
-Local Python: indicators, scoring, risk, sizing, proposal schema/fingerprint, approval, firewall, monitoring and journal.
-MCP adapter: Binance market/account/order connectivity. The exact MCP host command is configured by you; this project does not invent a Binance package, credential flow, or undocumented API.
+- Live trading is OFF by default
+- Exact YES approval is required
+- SHA-256 fingerprint protects each proposal
+- Maximum risk: 1%
+- Minimum risk/reward: 1:2
+- Spot trading only
+- Futures and Margin are blocked
+- Withdrawals, deposits and transfers are blocked
+- Demo mode uses synthetic data
+- Mock execution cannot place real orders
+- No Binance API keys are stored
 
-## Windows PowerShell
-```powershell
-cd .\binance-ai-trading-copilot
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python -m app.main --demo
-pytest -q
-```
-If activation is blocked:
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\.venv\Scripts\Activate.ps1
-```
+## Main Components
 
-Optional MCP configuration:
-```powershell
-Copy-Item .env.example .env
-```
-Set `BINANCE_MCP_COMMAND` and `BINANCE_MCP_ARGS` to the actual MCP host used by your Binance environment. Do not put API keys here.
+- Market Scanner
+- Scoring Engine
+- Risk Engine
+- Trade Proposal
+- Human Approval Gate
+- Spot Execution Firewall
+- Trade Monitoring
+- Trade Journal
+- Safety Tests
 
-## Hackathon demo
-Run `python -m app.main --demo`, show the scan, score, 1% risk calculation, proposal fingerprint, exact YES gate, then show that live execution remains blocked. Explain that the MCP adapter is isolated so the same deterministic safety layer can sit in front of the host's Binance Spot tools.
+## Safe Demo
 
-## Before any live test
-Keep `ALLOW_LIVE_EXECUTION=false` for the hackathon demo unless you have reviewed the MCP host, account permissions and every tool exposed to the agent. This repository is not financial advice.
-
-The demo generates a simulated trade proposal and demonstrates the human approval and execution safety system.
-The demo cannot place a real Binance order.
-🧪 Tests
 Run:
-pytest -q
+
+`python -m app.main --demo`
+
+The demo uses synthetic data and cannot place a real Binance order.
+
+## Tests
+
+Run:
+
+`pytest -q`
+
 The project includes tests for approval, risk limits, proposal tampering, Spot-only restrictions and execution safety.
-🏆 Hackathon Vision
+
+## Hackathon Vision
+
 Most AI trading systems focus on giving agents more autonomy.
+
 This project takes a safety-first approach:
-Give AI better analysis, but keep humans in control.
-The goal is an AI trading copilot that is explainable, auditable and difficult to misuse.
-License
+
+**Give AI better analysis, but keep humans in control.**
+
+## License
+
 MIT
